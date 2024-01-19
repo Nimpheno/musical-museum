@@ -24,7 +24,7 @@ public class EventEntity {
     private String summary;
 
     @NotNull
-    private OffsetDateTime date;
+    private String date;
 
     @NotNull
     private String location;
