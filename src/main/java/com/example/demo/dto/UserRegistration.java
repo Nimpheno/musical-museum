@@ -10,6 +10,7 @@ import lombok.Setter;
 public class UserRegistration {
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     private String password;
 }
