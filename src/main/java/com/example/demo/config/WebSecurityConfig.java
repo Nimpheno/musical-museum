@@ -4,6 +4,7 @@ import jakarta.servlet.Filter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,11 +27,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                       .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().authenticated()
-                        .anyRequest().permitAll()
-                )
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/registration/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/registration/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/customer-login/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/customer/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/state/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/state/**").permitAll()
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs", "/webjars/**")
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .authenticationProvider(authenticationProvider)
                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

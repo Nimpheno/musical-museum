@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.config.Jwt.AuthenticationRequest;
 import com.example.demo.dto.CredentialsDto;
 import com.example.demo.exceptions.UserException;
 import com.example.demo.entity.UserEntity;
@@ -19,6 +20,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
+    private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
 
     public void registerUser(UserEntity userDetails) {
@@ -43,8 +45,11 @@ public class UserService {
 
         }
         //user.get().getPassword()
-        // TODO: check the hashed password
 
+        // TODO: check the hashed password
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(credentials.getUsername(), credentials.getPassword());
+//        String testToken = authenticationService.authenticate(authenticationRequest).getToken();
+//        System.out.println(testToken);
         return user.get().getId();
     }
 
